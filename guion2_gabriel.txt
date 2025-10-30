@@ -1,0 +1,7 @@
+Hola, soy Gabriel David Rincón Bohórquez. Yo les voy a explicar la parte del espacio de estados y cómo un sistema como Google Maps “piensa” el mapa.
+
+Para que una inteligencia artificial pueda decidir, primero tiene que representar el problema. En navegación, el mundo real se convierte en un grafo: cada lugar o intersección es un nodo, y cada vía que conecta dos puntos es una arista con un costo.
+
+Ese costo casi siempre es tiempo, pero también puede ser distancia o hasta nivel de congestión. Por ejemplo, en Tunja podemos tener el punto de partida en el barrio Los Muiscas y el destino en el terminal antiguo. Entre esos dos puntos hay varias rutas: por la Avenida Universitaria o por la Avenida Norte. Cada una es un estado diferente.
+
+Entonces, el sistema de IA lo que hace es: percibe el entorno con datos de tráfico en tiempo real, arma el espacio de estados con todas las rutas posibles y luego se prepara para buscar la que tenga menor costo. Esa es la base para aplicar los algoritmos de búsqueda que explicará Ingrid.
