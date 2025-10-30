@@ -1,0 +1,7 @@
+Hola, soy Andrés Felipe Cardozo Pulido y en esta primera parte vamos a contar de qué trata nuestro trabajo de la Unidad 1: Inteligencia Artificial y Soluciones de Problemas de Búsqueda.
+
+Hoy en día usamos inteligencia artificial sin darnos cuenta: cuando Waze nos cambia la ruta, cuando Google Maps nos muestra el camino más rápido o cuando un dron evita chocar con obstáculos. Todo eso pasa porque la IA es capaz de percibir, analizar y tomar decisiones.
+
+El objetivo de nuestro trabajo es explicar, de forma sencilla, cómo esos sistemas de navegación toman decisiones inteligentes. No es magia: ellos reciben datos del entorno, los convierten en un modelo y luego buscan la mejor opción.
+
+En las siguientes partes mis compañeros les van a explicar cómo la IA representa el mapa como un grafo, cómo busca la mejor ruta y cómo usa heurísticas para decidir más rápido.
