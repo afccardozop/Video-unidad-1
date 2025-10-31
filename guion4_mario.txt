@@ -1,9 +1,0 @@
-Hola, soy Mario Andrés Rodríguez Guerrero y voy a cerrar la presentación con la parte de aplicación práctica y conclusiones.
-
-Lo que vimos es que la inteligencia artificial no solo sirve para jugar ajedrez o para robots. También está en cosas sencillas de todos los días, como elegir una ruta. Google Maps, Waze y hasta los drones hacen lo mismo: perciben el entorno, representan el problema como un grafo, aplican una búsqueda informada y luego recomiendan la mejor opción en tiempo real.
-
-En nuestro ejemplo de Tunja, del barrio Los Muiscas al terminal antiguo, la ruta A era más corta pero tenía trancón en la Avenida Universitaria. La ruta B era un poco más larga pero con mejor flujo en la Avenida Norte. La IA eligió la ruta B porque su función de costo era menor. Eso demuestra que la IA no solo mira la distancia, sino las condiciones reales.
-
-Como recomendación final: para que estos sistemas funcionen bien, es importante que los datos estén actualizados, que se registren los cambios viales y que los usuarios escriban bien su origen y destino. Así los algoritmos como A estrella pueden dar rutas más seguras y más rápidas.
-
-Gracias por ver nuestro trabajo.
