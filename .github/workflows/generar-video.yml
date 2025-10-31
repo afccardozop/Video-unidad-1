@@ -1,90 +1,42 @@
-name: Generar video con HeyGen
+name: Generar video con HeyGen (Corregido)
 
 on:
-  # Permite ejecutarlo manualmente desde la pestaña "Actions"
   workflow_dispatch: {}
-  # También se ejecutará automáticamente si cambias el archivo script.txt
   push:
     paths:
-      - "script.txt"
+      - "script-*.txt"
 
 jobs:
-  crear-video:
+  generar:
     runs-on: ubuntu-latest
     steps:
-      # 1️⃣ Descargar el código del repositorio
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2️⃣ Leer el contenido del guion desde script.txt
-      - name: Leer guion
-        id: guion
-        run: |
-          CONTENT=$(cat script.txt | python -c 'import sys,json; print(json.dumps(sys.stdin.read()))')
-          echo "guion=$CONTENT" >> $GITHUB_OUTPUT
-
-      # 3️⃣ Llamar a la API de HeyGen para CREAR el video
-      - name: Llamar a HeyGen - crear video
-        id: crear
+      - name: Generar videos con HeyGen
         env:
           HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
         run: |
-          echo "🎬 Enviando solicitud a HeyGen..."
-          curl -s -X POST "https://api.heygen.com/v1/video/generate" \
-            -H "x-api-key: $HEYGEN_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"title\": \"Video unidad 1\",
-              \"caption\": false,
-              \"video_inputs\": [
-                {
-                  \"avatar_id\": \"default_avatar\",
-                  \"voice_id\": \"es_es_1\",
-                  \"input_text\": ${{ steps.guion.outputs.guion }},
-                  \"background\": {\"type\": \"color\", \"value\": \"#ffffff\"}
-                }
-              ],
-              \"dimension\": {\"width\": 1280, \"height\": 720}
-            }" > resp.json
-
-          echo "Respuesta de HeyGen:"
-          cat resp.json
-
-          # Extraer el video_id de la respuesta
-          VIDEO_ID=$(cat resp.json | python -c 'import sys,json; print(json.load(sys.stdin).get("data",{}).get("video_id",""))')
-          if [ -z "$VIDEO_ID" ]; then
-            echo "❌ No se obtuvo video_id. Revisa la respuesta de HeyGen (puede ser límite del plan o API Key incorrecta)."
-            exit 1
-          fi
-          echo "video_id=$VIDEO_ID" >> $GITHUB_OUTPUT
-
-      # 4️⃣ Esperar a que el video esté procesado
-      - name: Esperar a que el video esté listo
-        id: esperar
-        env:
-          HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
-          VIDEO_ID: ${{ steps.crear.outputs.video_id }}
-        run: |
-          echo "⌛ Esperando a que el video $VIDEO_ID esté listo..."
-          for i in {1..30}; do
-            STATUS_JSON=$(curl -s -X GET "https://api.heygen.com/v1/video/status?video_id=${VIDEO_ID}" \
-              -H "x-api-key: $HEYGEN_API_KEY")
-            STATUS=$(echo "$STATUS_JSON" | python -c 'import sys,json; print(json.load(sys.stdin).get("data",{}).get("status",""))')
-            echo "Intento $i - estado: $STATUS"
-
-            if [ "$STATUS" = "completed" ]; then
-              URL=$(echo "$STATUS_JSON" | python -c 'import sys,json; print(json.load(sys.stdin)["data"]["video_url"])')
-              echo "video_url=$URL" >> $GITHUB_OUTPUT
-              exit 0
-            fi
-
-            sleep 10
+          for file in script-*.txt; do
+            echo "Procesando $file..."
+            CONTENT=$(jq -Rs . < "$file")
+            NAME=$(basename "$file" .txt)
+            echo "Generando video para $NAME"
+            curl -X POST "https://api.heygen.com/v2/video/generate" \
+              -H "x-api-key: $HEYGEN_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"title\": \"Video $NAME\",
+                \"aspect_ratio\": \"16:9\",
+                \"video_inputs\": [
+                  {
+                    \"type\": \"avatar\",
+                    \"input_text\": $CONTENT,
+                    \"input_text_language\": \"es\",
+                    \"avatar_id\": \"default\",
+                    \"voice_id\": \"default\"
+                  }
+                ]
+              }"
+            echo ""
           done
-          echo "❌ No se completó el video a tiempo"
-          exit 1
-
-      # 5️⃣ Mostrar la URL final del video generado
-      - name: Mostrar URL del video
-        run: |
-          echo "✅ Tu video está listo:"
-          echo "${{ steps.esperar.outputs.video_url }}"
