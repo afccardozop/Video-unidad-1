@@ -1,9 +1,0 @@
-Hola, soy Ingrid Yohanna Suárez Ramírez, y en esta parte voy a explicar los algoritmos de búsqueda que usan estos sistemas, especialmente Dijkstra y A estrella, o A*.
-
-Cuando ya tenemos el mapa convertido en un grafo, el sistema necesita elegir cuál camino es mejor. Ahí entran los algoritmos de búsqueda. Existen búsquedas no informadas, que revisan todas las opciones sin saber cuál es mejor, como la búsqueda en amplitud o en profundidad. Pero en navegación eso sería muy lento.
-
-Por eso se usan búsquedas informadas, que sí tienen una guía. Dijkstra es uno de los clásicos: va sumando el costo de cada tramo y siempre elige el camino que, en ese momento, tiene el costo acumulado más bajo.
-
-Pero el que más se usa en navegación es A estrella. A* combina dos cosas: lo que ya hemos recorrido, que se llama g de n, y una estimación de lo que falta, que se llama h de n. La fórmula es: f de n es igual a g de n más h de n. Eso le permite al sistema no revisar todo el mapa, sino solo las rutas que parecen mejores.
-
-Por eso, aunque una ruta sea más corta en kilómetros, el sistema puede elegir otra más larga pero más rápida, porque la heurística le dice que allí hay menos tráfico.
