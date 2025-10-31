@@ -1,0 +1,3 @@
+Hola, este es un video de prueba en español.
+Lo estamos generando desde GitHub con HeyGen.
+Si este mensaje aparece en el video, todo funcionó.
